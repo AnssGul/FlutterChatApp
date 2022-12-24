@@ -1,8 +1,12 @@
+import 'package:chatapp_firebase/helper/helper_function.dart';
+import 'package:chatapp_firebase/helper/services/auth_services.dart';
+import 'package:chatapp_firebase/pages/home_page/home_page.dart';
 import 'package:chatapp_firebase/pages/login_page/login_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/login_page/widget/fields.dart';
+
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
 
@@ -11,17 +15,19 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final formkey=GlobalKey<FormState>();
-  String email="";
-  String password="";
-  String fullName="";
+  bool _loading= false;
+  final formkey = GlobalKey<FormState>();
+  String email = "";
+  String password = "";
+  String fullName = "";
+AuthServices authServices = AuthServices();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(
       //   backgroundColor: Theme.of(context).primaryColor,
       // ),
-      body: SingleChildScrollView(
+      body:_loading ? Center(child: CircularProgressIndicator(color:Theme.of(context).primaryColor,),) :SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 80),
@@ -58,18 +64,16 @@ class _RegisterPageState extends State<RegisterPage> {
                     print(fullName);
                   },
                   validator: (val) {
-                    if(val!.isNotEmpty){
+                    if (val!.isNotEmpty) {
                       return null;
+                    } else {
+                      return "Name cann't be empty";
                     }
-                    else
-                      {
-                        return "Name cann't be empty";
-                      }
                   },
                 ),
-             SizedBox(
-               height: 15,
-             ),
+                SizedBox(
+                  height: 15,
+                ),
                 TextFormField(
                   decoration: textInputDecoration.copyWith(
                       labelText: "Email",
@@ -83,8 +87,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                   validator: (val) {
                     return RegExp(
-                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(val!)
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(val!)
                         ? null
                         : "Please enter a valid email";
                   },
@@ -160,7 +164,34 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
-  register(){
+
+  register() async {
+if(formkey.currentState!.validate()){
+  setState(() {
+
+    _loading =true;
+  });
+  await authServices.registerUserWithEmailandPassword(fullName, email, password).
+  then((value) async{
+    if(value==true){
+await HelperFunction.SaveUserLoggedInStatus(true);
+await HelperFunction.SaveUserEmailSF(email);
+await HelperFunction.SaveUserNameSf(fullName);
+nextScreenReplace(context, const HomePage());
+
+    }
+
+    else{
+      showSnackBar(context, Colors.red, value);
+      setState(() {
+        _loading=false;
+      });
+    }
+    //saving shared preferencer state
+
+
+  });
+}
 
   }
 }

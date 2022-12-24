@@ -1,7 +1,14 @@
 import 'package:chatapp_firebase/helper/register_page.dart';
+import 'package:chatapp_firebase/helper/services/auth_services.dart';
 import 'package:chatapp_firebase/pages/login_page/widget/fields.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
+import '../../helper/helper_function.dart';
+import '../../helper/services/database_service.dart';
+import '../home_page/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,6 +21,8 @@ class _LoginPageState extends State<LoginPage> {
   final formkey = GlobalKey<FormState>();
   String email = '';
   String password = '';
+  bool _loading=false;
+  AuthServices authServices =AuthServices();
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
       // appBar: AppBar(
       //   backgroundColor: Theme.of(context).primaryColor,
       // ),
-      body: SingleChildScrollView(
+      body:_loading? Center(child: CircularProgressIndicator(color: Theme.of(context).primaryColor,),): SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 80),
@@ -137,5 +146,39 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Login() {}
+  Login() async {
+    if(formkey.currentState!.validate()){
+      setState(() {
+
+        _loading =true;
+      });
+      await authServices.loginwithUserNameAndPasword(email, password).
+      then((value) async{
+        if(value==true){
+          QuerySnapshot snapshot= await DatabaseService(
+              uid: FirebaseAuth.instance.currentUser!.uid).gettingUserData(email);
+          //saving the data to the sharedpreference
+          await HelperFunction.SaveUserLoggedInStatus(true);
+          await HelperFunction.SaveUserEmailSF(email);
+          await HelperFunction.SaveUserNameSf(
+            snapshot.docs[0]["fullname"]
+          );
+
+          nextScreenReplace(context, const HomePage());
+
+        }
+
+        else{
+          showSnackBar(context,Colors.red,value);
+          //showSnakBar(context,Colors.red,value);
+          setState(() {
+            _loading=false;
+          });
+        }
+        //saving shared preferencer state
+
+
+      });
+    }
+  }
 }
