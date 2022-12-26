@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
     return res.substring(0,res.indexOf("_"));
   }
   String getName(String res){
-    return res.substring(0,res.indexOf("_")+1);
+    return res.substring(res.indexOf("_")+1);
   }
 
 
@@ -180,7 +180,7 @@ class _HomePageState extends State<HomePage> {
       body: groupList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          popUpdialog(context);
+          popUpdalog(context);
         },
         elevation: 0,
         backgroundColor: Theme.of(context).primaryColor,
@@ -201,14 +201,15 @@ class _HomePageState extends State<HomePage> {
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data['groups'] != null) {
-              if (snapshot.data['groups'].length != 0) {
+              if (snapshot.data['groups'].length!= 0) {
                 return ListView.builder(
                   itemCount: snapshot.data['groups'].length,
                     itemBuilder: (context,index){
+                      int reverseIndex = snapshot.data['groups'].length-index-1;
                    return GroupTile(
-                       groupId: getId(snapshot.data["groups"][index]),
-                       userName: snapshot.data["fullName"],
-                       groupName: getName(snapshot.data["groups"][index])
+                       groupId: getId(snapshot.data["groups"][reverseIndex]),
+                       userName: snapshot.data['fullname'],
+                       groupName: getName(snapshot.data["groups"][reverseIndex])
                    );
                     }
 
