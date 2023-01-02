@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text(
+                const Text(
                   "Wave",
                   style: TextStyle(
                     fontSize: 40,
@@ -50,9 +50,8 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 10,
                 ),
-                Text(
-                  "Login now to see what they are talking!",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+                const Text(
+                  "Login now to see what they talking!",style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                 ),
                 Image.asset("images/loginn.png"),
                 TextFormField(
@@ -76,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 //check the validation
 
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 TextFormField(
@@ -106,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).primaryColor,
+                        backgroundColor: Theme.of(context).primaryColor,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30))),
@@ -129,12 +128,12 @@ class _LoginPageState extends State<LoginPage> {
                       children: <TextSpan>[
                         TextSpan(
                             text: "Register here",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.black,
                                 decoration: TextDecoration.underline),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                nextScreen(context, RegisterPage());
+                                nextScreen(context, const RegisterPage());
                               })
                       ]),
                 )

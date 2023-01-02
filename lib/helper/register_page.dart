@@ -37,7 +37,7 @@ AuthServices authServices = AuthServices();
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text(
+                const Text(
                   "Wave",
                   style: TextStyle(
                     fontSize: 40,
@@ -47,7 +47,7 @@ AuthServices authServices = AuthServices();
                 const SizedBox(
                   height: 10,
                 ),
-                Text(
+                const Text(
                   "Create your account now to chat and explore!",
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                 ),
@@ -67,11 +67,11 @@ AuthServices authServices = AuthServices();
                     if (val!.isNotEmpty) {
                       return null;
                     } else {
-                      return "Name cann't be empty";
+                      return "Name can't be empty";
                     }
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 TextFormField(
@@ -95,7 +95,7 @@ AuthServices authServices = AuthServices();
                 ),
                 //check the validation
 
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 TextFormField(
@@ -125,7 +125,7 @@ AuthServices authServices = AuthServices();
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).primaryColor,
+                        backgroundColor: Theme.of(context).primaryColor,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30))),
@@ -148,12 +148,12 @@ AuthServices authServices = AuthServices();
                       children: <TextSpan>[
                         TextSpan(
                             text: "Login now",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.black,
                                 decoration: TextDecoration.underline),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                nextScreen(context, LoginPage());
+                                nextScreen(context, const LoginPage());
                               })
                       ]),
                 )

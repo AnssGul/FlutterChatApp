@@ -63,7 +63,7 @@ class _ChatPageState extends State<ChatPage> {
                   groupName: widget.groupName,
                   adminName: admin,
                 ));
-              }, icon: Icon(Icons.info))
+              }, icon: const Icon(Icons.info))
         ],
 
       ),
@@ -77,7 +77,7 @@ class _ChatPageState extends State<ChatPage> {
                 .size
                 .width,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
               width: MediaQuery
                   .of(context)
                   .size
@@ -88,10 +88,10 @@ class _ChatPageState extends State<ChatPage> {
                   Expanded(
                       child: TextFormField(
                         controller: messageController,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white
                         ),
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             hintText: "Send a message..",
                             hintStyle: TextStyle(
                               color: Colors.white,
@@ -100,7 +100,7 @@ class _ChatPageState extends State<ChatPage> {
                             border: InputBorder.none
                         ),
                       )),
-                  SizedBox(
+                  const SizedBox(
                     width: 12,
                   ),
                   GestureDetector(
@@ -116,7 +116,7 @@ class _ChatPageState extends State<ChatPage> {
                               .primaryColor,
                           borderRadius: BorderRadius.circular(30)
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Icon(
                           Icons.send,
                           color: Colors.white,
